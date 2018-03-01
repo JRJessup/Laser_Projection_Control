@@ -1,13 +1,17 @@
-// variables are declared here:
+// variable declaration
 long count = 0;
 long angle = 0;
+long lastAngle = 0;
+float speed = 0;
+float angleMoved = 0;
+
 unsigned long programTime, loopTime, refreshTime;
+volatile int A,B;
 
 byte state, prevState;
 
-volatile int A,B;
-int last_angle = 0;
-int angle_moved = 0;
+
+
 
 void setup()
 {
@@ -17,8 +21,8 @@ void setup()
   pinMode(3, INPUT);
 //  attachInterrupt(digitalPinToInterrupt(2), Achange, CHANGE); //alternative method of defining interrupts
 //  attachInterrupt(digitalPinToInterrupt(3), Bchange, CHANGE);
-  attachInterrupt(0,Achange,CHANGE); //interrupt pins declared here
-  attachInterrupt(1,Bchange,CHANGE);
+  attachInterrupt(0, aTrigger, CHANGE); //interrupt pins declared here
+  attachInterrupt(1, bTrigger, CHANGE);
   programTime = millis();
 }
 
@@ -32,26 +36,33 @@ void loop()
     angle = angle%360;
     count = count%400;
 
+    angleMoved = (angle - lastAngle)*(3.14159/180); //calc magnitude of angular rotation in radians
+    speed = angleMoved; //Dependent on Serial Refresh Time
+
     Serial.print("Count: ");
     Serial.print(count);
     Serial.print("  Angle: ");
     Serial.print(angle);
+    Serial.print("  Speed: ");
+    Serial.print(speed);
     Serial.print("\n");
 
+    lastAngle = angle; //update lastAngle for accurate movement calculations
     programTime = loopTime; //Equalizes program and loopTime, in order to restart Refresh Timer
   }
 
 }
 
-void Achange()
+void aTrigger()
 {
   A = digitalRead(2);
   B = digitalRead(3);
 
-  if ((A==HIGH)&&(B==HIGH)) state = 1;// switch...case method used here
-  if ((A==HIGH)&&(B==LOW)) state = 2;
-  if ((A==LOW)&&(B==LOW)) state = 3;
-  if((A==LOW)&&(B==HIGH)) state = 4;
+  if ((A==HIGH) && (B==HIGH)) state = 1;
+  if ((A==HIGH) && (B==LOW))  state = 2;
+  if ((A==LOW)  && (B==LOW))  state = 3;
+  if ((A==LOW)  && (B==HIGH)) state = 4;
+
   switch (state)
   {
     case 1:
@@ -81,15 +92,16 @@ void Achange()
   prevState = state;
 }
 
-void Bchange()
+void bTrigger()
 {
   A = digitalRead(2);
   B = digitalRead(3);
 
-  if ((A==HIGH)&&(B==HIGH)) state = 1;
-  if ((A==HIGH)&&(B==LOW)) state = 2;
-  if ((A==LOW)&&(B==LOW)) state = 3;
-  if((A==LOW)&&(B==HIGH)) state = 4;
+  if ((A==HIGH) && (B==HIGH)) state = 1;
+  if ((A==HIGH) && (B==LOW))  state = 2;
+  if ((A==LOW)  && (B==LOW))  state = 3;
+  if ((A==LOW)  && (B==HIGH)) state = 4;
+
   switch (state)
   {
     case 1:
