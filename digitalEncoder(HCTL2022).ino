@@ -98,6 +98,7 @@ double Get_MSB() {
 
   if (msbNew == msbOld) {
     MSB = msbNew;  //Get Stable Data
+    return MSB;
   }
   else {
     Get_MSB();  //Says GoTo Get_2nd in Datasheet. Maybe Typo? Check w/ Tony
@@ -110,6 +111,7 @@ double Get_2nd() {
 
   if (secondNew == secondOld) {
     SecondByte = secondNew;  //Get Stable Data
+    return SecondByte;
   }
   else {
     Get_2nd();
@@ -122,6 +124,7 @@ double Get_3rd() {
 
   if (thirdNew == thirdOld) {
     ThirdByte = thirdNew;  //Get Stable Data
+    return ThirdByte;
   }
   else {
     Get_3rd();
@@ -134,6 +137,7 @@ double Get_LSB() {
 
   if (lsbNew == lsbOld) {
     LSB = lsbNew;  //Get Stable Data
+    return LSB;
   }
   else {
     Get_LSB();
