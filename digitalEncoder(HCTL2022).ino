@@ -52,22 +52,22 @@ void loop() {
   digitalWrite(select2, HIGH); //Set SEL2
   digitalWrite(outputEnable, LOW); //Reset OE
 
-  Get_MSB(); //Get MostSignificantByte
+  MSB = Get_MSB(); //Get MostSignificantByte
 
   digitalWrite(select1, HIGH);
   digitalWrite(select2, HIGH);
 
-  Get_2nd();
+  SecondByte = Get_2nd();
 
   digitalWrite(select1, LOW);
   digitalWrite(select2, LOW);
 
-  Get_3rd();
+  ThirdByte = Get_3rd();
 
   digitalWrite(select1, HIGH);
   digitalWrite(select2, LOW);
 
-  Get_LSB();
+  LSB = Get_LSB();
 
   digitalWrite(outputEnable, HIGH);
   delay(25);
@@ -93,8 +93,8 @@ void loop() {
 
 
 double Get_MSB() {
-  msbOld = PinA;  //Get Current Data --> WHAT IS PINA
-  msbNew = PinA;  //Get 2nd Data
+  double msbOld = digitalRead(PinA);  //Get Current Data --> WHAT IS PINA
+  double msbNew = digitalRead(PinA);  //Get 2nd Data
 
   if (msbNew == msbOld) {
     MSB = msbNew;  //Get Stable Data
@@ -106,8 +106,8 @@ double Get_MSB() {
 }
 
 double Get_2nd() {
-  secondOld = PinA;  //Get Current Data --> WHAT IS PINA
-  secondNew = PinA;  //Get 2nd Data
+  double secondOld = digitalRead(PinA);  //Get Current Data --> WHAT IS PINA
+  double secondNew = digitalRead(PinA);  //Get 2nd Data
 
   if (secondNew == secondOld) {
     SecondByte = secondNew;  //Get Stable Data
@@ -119,8 +119,8 @@ double Get_2nd() {
 }
 
 double Get_3rd() {
-  thirdOld = PinA;  //Get Current Data --> WHAT IS PINA
-  thirdNew = PinA;  //Get 2nd Data
+  double thirdOld = digitalRead(PinA);  //Get Current Data --> WHAT IS PINA
+  double thirdNew = digitalRead(PinA);  //Get 2nd Data
 
   if (thirdNew == thirdOld) {
     ThirdByte = thirdNew;  //Get Stable Data
@@ -132,8 +132,8 @@ double Get_3rd() {
 }
 
 double Get_LSB() {
-  lsbOld = PinA;  //Get Current Data --> WHAT IS PINA
-  lsbNew = PinA;  //Get 2nd Data
+  double lsbOld = digitalRead(PinA);  //Get Current Data --> WHAT IS PINA
+  double lsbNew = digitalRead(PinA);  //Get 2nd Data
 
   if (lsbNew == lsbOld) {
     LSB = lsbNew;  //Get Stable Data
