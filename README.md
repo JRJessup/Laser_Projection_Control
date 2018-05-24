@@ -1,4 +1,4 @@
-# elec391controls
+# Laser_Projection_Control
 Control Team
-  - Open Loop --> encoder+stateMachine
-  - Closed Loop --> encoder+PID
+  - Joon Ha
+  - Josh Jessup
